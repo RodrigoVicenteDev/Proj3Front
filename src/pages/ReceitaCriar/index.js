@@ -45,18 +45,24 @@ console.log(ingredientes)
 for( let element of ingredientes){
     console.log(element.value)
     form.ingredientes.push(element.value)}
+
+    let passos = document.querySelectorAll(".preparo")
+    console.log(passos)
+    for( let element of passos){
+        console.log(element.value)
+        form.preparo.push(element.value)}    
    
     console.log(form)
-}
 
 
-    /* try {
+
+     try {
       await api.post("/receita/criar", form);
-      setReload(!reload);
+      
     } catch (error) {
       console.log(error);
-    } */
-  
+    } 
+}
 
 
   return (

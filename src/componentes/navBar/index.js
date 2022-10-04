@@ -5,7 +5,7 @@ function NavBar() {
 
         <>
 <Link to="/usuario/signup" >SignIn</Link><br></br>
-<Link to="/usuario/signup" >LogIn</Link><br></br>
+<Link to="/login" >LogIn</Link><br></br>
 <Link to="/receita/criar" >Criar Receita</Link>
         </>
      );
