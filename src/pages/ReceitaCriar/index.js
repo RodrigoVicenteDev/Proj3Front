@@ -23,7 +23,7 @@ function Receitascriar() {
 
   function adicionaringrediente(e){
     e.preventDefault()
-   setIngrediente([...ingrediente, "preparo"])
+   setIngrediente([...ingrediente, "ingrediente"])
     
     
    
@@ -40,11 +40,14 @@ function adicionarpreparo(e){
 async function handleSubmit(e) {
     e.preventDefault();
 
-let ingredientes = document.getElementsByClassName("ingrediente")
+let ingredientes = document.querySelectorAll(".ingrediente")
 console.log(ingredientes)
-ingrediente.forEach((element)=>{
-    console.log(element)
-})
+for( let element of ingredientes){
+    console.log(element.value)
+    form.ingredientes.push(element.value)}
+   
+    console.log(form)
+}
 
 
     /* try {
@@ -53,7 +56,7 @@ ingrediente.forEach((element)=>{
     } catch (error) {
       console.log(error);
     } */
-  }
+  
 
 
   return (
