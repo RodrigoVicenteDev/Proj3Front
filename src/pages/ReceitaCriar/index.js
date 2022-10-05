@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "../../config/api";
 import { useNavigate } from "react-router-dom";
+import style from "./style.module.css"
 
 function Receitascriar() {
   const [reload, setReload] = useState(false);
@@ -59,50 +60,53 @@ function Receitascriar() {
 
   return (
     <>
+    <div className={style.container}>
       <form onSubmit={handleSubmit}>
-        <label>Nome:</label>
-        <input
+        <label className="block text-sm font-medium text-gray-700">Nome:</label>
+        <input  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           name="nome"
           type="text"
           value={form.nome}
           onChange={handleChange}
         />
-        <label>Tempo de Preparo em min:</label>
-        <input
+        <label style={{ marginTop: "20px" }} className="block text-sm font-medium text-gray-700">Tempo de Preparo em min:</label>
+        <input  className="mt-1 block rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           name="tempo"
           type="number"
           value={form.tempo}
           onChange={handleChange}
         />
-        <label>dificuldade:</label>
-        <select name="dificuldade" onChange={handleChange}>
+        <label style={{ marginTop: "20px" }} className="block text-sm font-medium text-gray-700">dificuldade:</label>
+        <select className="mt-1 block  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" name="dificuldade" onChange={handleChange}>
           <option value="facil">facil</option>
           <option value="medio">médio</option>
           <option value="dificil">dificil</option>
         </select>
-        <label>Porções:</label>
+        <label style={{ marginTop: "20px" }}className="block text-sm font-medium text-gray-700">Porções:</label>
         <input
+         className="mt-1 block  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           name="porcoes"
           type="number"
           value={form.porcoes}
           onChange={handleChange}
         />
 
-        <label>Ingredientes:</label>
+        <label style={{ marginTop: "20px" }} className="block text-sm font-medium text-gray-700">Ingredientes:</label>
         {ingrediente.map((element, index) => {
-          return <input key={index} className="ingrediente" type="text" />;
+          return <input  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ingrediente" key={index} type="text" />;
         })}
-        <button onClick={adicionaringrediente}>Adicionar +1 Ingrediente</button>
+        <button style={{ marginTop: "20px" }} className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" onClick={adicionaringrediente}>Adicionar +1 Ingrediente</button>
 
-        <label>Passos:</label>
+        <label style={{ marginTop: "20px" }} className="block text-sm font-medium text-gray-700">Passos:</label>
         {preparo.map((element, index) => {
-          return <input key={index} className="preparo" type="text" />;
+          return <input  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm preparo" key={index}  type="text" />;
         })}
-        <button onClick={adicionarpreparo}>
+        <button style={{ marginTop: "20px" }} className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" onClick={adicionarpreparo}>
           Adicionar +1 passo ao preparo
-        </button>
-        <button type="submit">Enviar</button>
+        </button><br></br>
+        <button style={{ marginTop: "20px" }} className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" type="submit">Enviar</button>
       </form>
+      </div>
     </>
   );
 }

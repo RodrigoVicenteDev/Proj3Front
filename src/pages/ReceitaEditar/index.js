@@ -1,163 +1,194 @@
 import { useEffect, useState } from "react";
+import Modal from "react-bootstrap/Modal";
 import { api } from "../../config/api";
 import { useNavigate } from "react-router-dom";
-function ReceitaEditar({ id, form, setForm, loading }) {
+function ReceitaEditar({ id, form, setForm, loading, show, setShow }) {
   const [reload, setReload] = useState(false);
   const navigate = useNavigate();
-  const [alteraring, setAlteraring] = useState(false);
-  const [alterarprep, setAlterarprep] = useState(false);
-
- 
   let [ingrediente, setIngrediente] = useState([]);
   let [preparo, setPreparo] = useState([]);
-
+  const [editForm, setEditForm] = useState({ ...form });
   function handleChange(e) {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setEditForm({ ...editForm, [e.target.name]: e.target.value });
   }
-
-  function adicionaringrediente(e) {
-    e.preventDefault();
-    setIngrediente([...ingrediente, "ingrediente"]);
+  function handleIngredients(e, index) {
+    const clone = [...ingrediente];
+    clone[index] = e.target.value;
+    setIngrediente(clone);
   }
-
+  function handlePreparo(e, index) {
+    const clone = [...preparo];
+    clone[index] = e.target.value;
+    setPreparo(clone);
+  }
   function adicionarpreparo(e) {
     e.preventDefault();
-    setPreparo([...preparo, "preparo"]);
+    setPreparo([...preparo, ""]);
   }
-
+  function adicionaringrediente(e) {
+    e.preventDefault();
+    setIngrediente([...ingrediente, ""]);
+  }
   async function handleSubmit(e) {
     e.preventDefault();
-
-    let ingredientes = document.querySelectorAll(".ingredienteadd");
-
-    for (let element of ingredientes) {
-      if (!form.ingredientes.includes(element.value)) {
-        form.ingredientes.push(element.value);
-      }
+    const clone = { ...form };
+    clone.ingredientes = [...clone.ingredientes, ...ingrediente];
+    clone.preparo = [...clone.preparo, ...preparo];
+    delete clone._id;
+    try {
+      await api.put(`/receita/editar/${id}`, clone);
+    } catch (error) {
+      console.log(error);
     }
-
-    let passos = document.querySelectorAll(".preparoadd");
-
-    for (let element of passos) {
-      if (!form.preparo.includes(element.value)) {
-        form.preparo.push(element.value);
-      }
-    }
-    console.log(form);
-    /* try {
-          await api.post("/receita/criar", form);
-        } catch (error) {
-          console.log(error);
-        } */
   }
-
   function alteraringrediente(e) {
-    form.ingredientes[e.target.name] = e.target.value;
-    
+    const clone = { ...editForm }; // clono o state pra poder alterar ele diretamente
+    clone.ingredientes[e.target.name] = e.target.value; //altero o state
+    setEditForm({ ...clone }); // set o clone alterado pro state
   }
-
   function alterarpreparo(e) {
-    form.preparo[e.target.name] = e.target.value;
-    
+    const clone = { ...editForm };
+    clone.preparo[e.target.name] = e.target.value;
+    setEditForm({ ...clone });
   }
-
+  function handleDeleteEditForm(e) {
+    const clone = { ...editForm };
+    clone.ingredientes.splice(e.target.name, 1);
+    setEditForm(clone);
+  }
   return (
     <>
-      {loading && (
-        <form onSubmit={handleSubmit}>
-          <label>Nome:</label>
-          <input
-            name="nome"
-            type="text"
-            value={form.nome}
-            onChange={handleChange}
-          />
-          <label>Tempo de Preparo em min:</label>
-          <input
-            name="tempo"
-            type="number"
-            value={form.tempo}
-            onChange={handleChange}
-          />
-          <label>dificuldade:</label>
-          <select name="dificuldade" onChange={handleChange}>
-            <option value="facil">facil</option>
-            <option value="medio">médio</option>
-            <option value="dificil">dificil</option>
-          </select>
-          <label>Porções:</label>
-          <input
-            name="porcoes"
-            type="number"
-            value={form.porcoes}
-            onChange={handleChange}
-          />
-          <ul>
-            <b onClick={() => setAlteraring(!alteraring)}>Alterar Ingredientes</b>
-            <br></br>
-            {form.ingredientes.map((element, index) => {
-              return (
-                <li>
-                  <input
-                    key={index}
-                    className="ingrediente"
+     <Modal show={show} onHide={() => setShow(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Editar Receita</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+              {loading && (
+                <form onSubmit={handleSubmit}>
+                  <label className="block text-sm font-medium text-gray-700">Nome:</label>
+                  <input className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    name="nome"
                     type="text"
-                    value={element}
-                    name={index}
+                    value={editForm.nome}
+                    onChange={handleChange}
                   />
-                  {alteraring && (
-                    <input
-                      type="text"
-                      name={index}
-                      onChange={alteraringrediente}
-                    />
-                  )}
-                </li>
-              );
-            })}
-            </ul>
-            <h1>Adicionar mais ingredientes <button onClick={adicionaringrediente}>Adicionar +1 Ingrediente</button></h1>
-            <ul>
-              {ingrediente.map((element, index)=>{
-                return <li><input key={index} className="ingredienteadd" type="text" /></li>
-              })}
-            </ul>
-          
-          <ul>
-          <b onClick={() => setAlterarprep(!alterarprep)}>Alterar Preparo</b>
-            <br></br>
-            {form.preparo.map((element, index) => {
-              return (
-                <li>
-                  <input
-                    key={index}
-                    className="preparo"
-                    type="text"
-                    value={element}
-                    name={index}
+                  <label className="block text-sm font-medium text-gray-700">Tempo de Preparo em min:</label>
+                  <input className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    name="tempo"
+                    type="number"
+                    value={editForm.tempo}
+                    onChange={handleChange}
                   />
-                  {alterarprep && (
-                    <input
-                      type="text"
-                      name={index}
-                      onChange={alterarpreparo}
-                    />
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-          <h1>Adicionar mais passos de preparo <button onClick={adicionarpreparo}>Adicionar +1 passo</button></h1>
-            <ul>
-              {preparo.map((element, index)=>{
-                return <li><input key={index} className="preparoadd" type="text" /></li>
-              })}
-            </ul>
-          <button type="submit">Concluir alteração</button>
-        </form>
-      )}
+                  <label className="block text-sm font-medium text-gray-700">dificuldade:</label>
+                  <select  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"name="dificuldade" onChange={handleChange}>
+                    <option value="facil">facil</option>
+                    <option value="medio">médio</option>
+                    <option value="dificil">dificil</option>
+                  </select>
+                  <label className="block text-sm font-medium text-gray-700">Porções:</label>
+                  <input className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    name="porcoes"
+                    type="number"
+                    value={editForm.porcoes}
+                    onChange={handleChange}
+                  />
+                  <ul>
+                    <b>Alterar Ingredientes</b>
+                    <br></br>
+                    {editForm.ingredientes.map((element, index) => {
+                      return (
+                        <li  style={{display:"flex"}}>
+                          <input
+                          className=" ingrediente mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            key={index}
+                            
+                            type="text"
+                            value={element}
+                            name={index}
+                            onChange={alteraringrediente}
+                          />
+                          <button style={{marginLeft:"10px"}} onClick={handleDeleteEditForm}>x</button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  
+                   
+                  <ul>
+                    {ingrediente.map((element, index) => {
+                      return (
+                        <li  style={{display:"flex"}}>
+                          <input
+                            key={index}
+                            className="ingredienteadd mt-1  w-full block rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            type="text"
+                            value={element}
+                            onChange={(e) => handleIngredients(e, index)}
+                          />
+                          <button style={{marginLeft:"10px"}} Click={handleDeleteEditForm}>x</button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  <button className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"onClick={adicionaringrediente}>
+                      Adicionar +1 Ingrediente
+                    </button>
+                  <ul>
+                 
+                
+                    <b>Alterar Preparo</b>
+                    <br></br>
+                    {editForm.preparo.map((element, index) => {
+                      return (
+                        <li  style={{display:"flex"}}>
+                          <input
+                            key={index}
+                            className="preparo mt-1 block  w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            type="text"
+                            value={element}
+                            name={index}
+                            onChange={alterarpreparo}
+                          />
+                          <button style={{marginLeft:"10px"}} Click={handleDeleteEditForm}>x</button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  
+                   
+                 
+                  <ul>
+                    {preparo.map((element, index) => {
+                      return (
+                        <>
+                        
+                        <li style={{display:"flex"}}>
+                          <input
+                            key={index}
+                            className="preparoadd  w-full mt-1 block rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            type="text"
+                            value={element}
+                            onChange={(e) => handlePreparo(e, index)}
+                          />
+                          <button style={{marginLeft:"10px"}}>x</button>
+                        </li>
+                        
+                        </>
+                      );
+                    })}
+                  </ul>
+                  <button className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" onClick={adicionarpreparo}>
+                      Adicionar +1 passo
+                    </button>
+                  <button  style={{marginTop:"20px"}} className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" type="submit">Concluir alteração</button>
+                </form>
+              )}
+           </Modal.Body>
+        <Modal.Footer className="justify-content-between">
+         
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }
-
 export default ReceitaEditar;
