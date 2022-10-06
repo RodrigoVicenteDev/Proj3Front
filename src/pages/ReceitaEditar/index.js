@@ -36,7 +36,7 @@ function ReceitaEditar({ id, form, setForm, loading, show, setShow }) {
     clone.ingredientes = [...clone.ingredientes, ...ingrediente];
     clone.preparo = [...clone.preparo, ...preparo];
     delete clone._id;
-    console.log(clone)
+    
     try {
       await api.put(`/receita/editar/${id}`, clone);
     } catch (error) {
@@ -54,9 +54,17 @@ function ReceitaEditar({ id, form, setForm, loading, show, setShow }) {
     clone.preparo[e.target.name] = e.target.value;
     setEditForm({ ...clone });
   }
-  function handleDeleteEditForm(e) {
+  function handleDeleteEditForm(index) {
     const clone = { ...editForm };
-    clone.ingredientes.splice(e.target.name, 1);
+    clone.ingredientes.splice(index, 1);
+  
+    setEditForm(clone);
+  }
+
+  function handleDeleteEditFormPreparo(index) {
+    const clone = { ...editForm };
+    clone.preparo.splice(index, 1);
+    
     setEditForm(clone);
   }
   return (
@@ -153,12 +161,12 @@ function ReceitaEditar({ id, form, setForm, loading, show, setShow }) {
                         name={index}
                         onChange={alteraringrediente}
                       />
-                      <button
+                      <b
                         style={{ marginLeft: "10px" }}
-                        onClick={handleDeleteEditForm}
+                        onClick={()=>{handleDeleteEditForm(index)}}
                       >
                         x
-                      </button>
+                      </b>
                     </li>
                   );
                 })}
@@ -175,12 +183,12 @@ function ReceitaEditar({ id, form, setForm, loading, show, setShow }) {
                         value={element}
                         onChange={(e) => handleIngredients(e, index)}
                       />
-                      <button
+                      <b
                         style={{ marginLeft: "10px" }}
-                        Click={handleDeleteEditForm}
+                        onClick={()=>{handleDeleteEditForm(index)}}
                       >
                         x
-                      </button>
+                      </b>
                     </li>
                   );
                 })}
@@ -205,12 +213,12 @@ function ReceitaEditar({ id, form, setForm, loading, show, setShow }) {
                         name={index}
                         onChange={alterarpreparo}
                       />
-                      <button
+                      <b
                         style={{ marginLeft: "10px" }}
-                        Click={handleDeleteEditForm}
+                        onClick={()=>{handleDeleteEditFormPreparo(index)}}
                       >
                         x
-                      </button>
+                      </b>
                     </li>
                   );
                 })}
@@ -228,7 +236,7 @@ function ReceitaEditar({ id, form, setForm, loading, show, setShow }) {
                           value={element}
                           onChange={(e) => handlePreparo(e, index)}
                         />
-                        <button style={{ marginLeft: "10px" }}>x</button>
+                        <b onClick={()=>{handleDeleteEditFormPreparo(index)}} style={{ marginLeft: "10px" }}>x</b>
                       </li>
                     </>
                   );

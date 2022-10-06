@@ -33,7 +33,7 @@ function ReceitaDetalhe() {
       setLoading(true);
     }
     fetchreceita();
-  }, [reload]);
+  }, [reload , editar]);
 
   async function handleFavoritas(){
     try {
