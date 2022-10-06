@@ -63,7 +63,7 @@ function SigIn() {
     } catch (error) {
       console.log(error);
     }
-    navigate("/login")
+    navigate("/ ")
   }
 
   return (

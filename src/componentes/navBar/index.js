@@ -19,7 +19,7 @@ function NavBar() {
   const navigate = useNavigate();
   function LogOut(){
     localStorage.clear()
-    navigate("/")
+    navigate("/ ")
   }
   const [photo, setPhoto] = useState("");
   useEffect(() => {
