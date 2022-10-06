@@ -28,7 +28,7 @@ function App() {
      <Route path="/comentario/editar/:id" element={<ComentariosEditar/>}/>
      <Route path="/profile" element={<ProfilePage/>}/>
      </Routes>
-     {/* {!window.locate === "/"  ||!window.locate === "/"&&  <Footer/> } */}
+       {window.location.pathname != "/" &&<Footer/> }
     </div>
   );
 }
