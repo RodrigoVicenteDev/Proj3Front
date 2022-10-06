@@ -13,7 +13,7 @@ function ComentariosEditar({ idcomentario, element, reload, setReload }) {
 
     setLogado(parseLoggedInUser.user._id);
   }, []);
-console.log(element)
+console.log(element.autor._id)
   function handleChange(e) {
     setComentario({ ...comentario, [e.target.name]: e.target.value });
   }
@@ -39,6 +39,8 @@ console.log(element)
   return (
     <>
       <>
+      
+        {logado == element.autor._id&&(
         <button
           className="group relative flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           onClick={() => {
@@ -46,7 +48,7 @@ console.log(element)
           }}
         >
           Editar
-        </button>
+        </button>)}
         {editar && (
           <form onSubmit={handleSubmit}>
             <label>Comentario:</label>

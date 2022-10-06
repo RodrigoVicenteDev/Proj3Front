@@ -3,6 +3,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import logo from "../../../src/imagens/Group 1sm.png";
+import { useNavigate } from "react-router-dom";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -14,6 +15,12 @@ const navigation = [
 ];
 
 function NavBar() {
+
+  const navigate = useNavigate();
+  function LogOut(){
+    localStorage.clear()
+    navigate("/")
+  }
   const [photo, setPhoto] = useState("");
   useEffect(() => {
     const loggedInUserJSON = localStorage.getItem("loggedInUser");
@@ -124,6 +131,7 @@ function NavBar() {
                         {({ active }) => (
                           <a
                             href="#"
+                            onClick={LogOut}
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700"
