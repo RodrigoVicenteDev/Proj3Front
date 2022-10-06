@@ -45,7 +45,7 @@ function Receitascriar() {
     } catch (error) {
       console.log(error);
     }
-    navigate("/receitas")
+    navigate("/paginaprincipal")
   }
   return (
     <>
