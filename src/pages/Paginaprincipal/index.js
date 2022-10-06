@@ -51,6 +51,7 @@ function PaginaPrincipal() {
 
               .filter((element) => {
                 return (
+                  element.dificuldade.toLowerCase().includes(search.toLowerCase()) ||
                   element.categoria.toLowerCase().includes(search.toLowerCase()) ||
                   element.nome.toLowerCase().includes(search.toLowerCase()) ||
                   element.dificuldade
