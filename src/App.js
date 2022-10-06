@@ -5,6 +5,8 @@ import Receitascriar from './pages/ReceitaCriar';
 import PaginaPrincipal from './pages/Paginaprincipal';
 import ReceitaDetalhe from './pages/receitaDetalhe';
 import ComentariosEditar from './pages/ComentarioEditar';
+import ProfilePage from './pages/ProfilePage';
+
 import './App.css';
 import {Routes, Route} from "react-router-dom"
 
@@ -13,14 +15,16 @@ function App() {
     <div className="App">
     
 
-     <NavBar/>
+    <NavBar/>
      <Routes>
+     
      <Route path="/usuario/signup" element={<SigIn/>}/>
-     <Route path="/login" element={<LogIn/>}/>
+     <Route path="/" element={<LogIn/>}/>
      <Route path='/receita/criar' element={<Receitascriar/>}/>
      <Route path='/paginaprincipal' element={<PaginaPrincipal/>}/>
      <Route path="/receita/detalhe/:id" element={<ReceitaDetalhe/>}/>
      <Route path="/comentario/editar/:id" element={<ComentariosEditar/>}/>
+     <Route path="/profile" element={<ProfilePage/>}/>
      </Routes>
 
     </div>

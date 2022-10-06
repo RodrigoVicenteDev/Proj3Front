@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "../../config/api";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import style from "./style.module.css";
 
 function PaginaPrincipal() {
   const [receitas, setReceitas] = useState([]);
@@ -22,49 +23,49 @@ function PaginaPrincipal() {
   }, []);
 
   return (
-    <div className="bg-white">
-      <div className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+    <>
+      <div className={style.container}>
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-          Todas as Receitas 
+          Todas as Receitas
         </h2>
-
-        <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+        <div style={{ display: "flex" }}>
           {loading &&
             receitas.map((element) => {
               return (
-                <div key={element._id} className="group relative">
-                  <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-80">
+                <Link className="text-gray-900" style={{textDecoration:"none"}}to={`/receita/detalhe/${element._id}`}>
+                  {" "}
+                  <div class="card" style={{ width: " 18rem", margin: "20px" }}>
                     <img
+                      class="card-img-top"
                       src={element.imagemurl}
-                      alt="..."
-                      className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                      alt="Card image cap"
                     />
-                  </div>
-                  <div className="mt-4 flex justify-between">
-                    <div>
-                      <h3 className="text-sm text-gray-700">
-                        <Link to={`/receita/detalhe/${element._id}`}>
-                          <span
-                            aria-hidden="true"
-                            className="absolute inset-0"
-                          />
-                          {element.nome}
-                        </Link>
-                      </h3>
-                      <p className="mt-1 text-sm text-gray-500">
-                        {element.dificuldade}
-                      </p>
+                    <div class="card-body">
+                      <div class="card-text">
+                        <div>
+                          <h5>{element.nome}</h5>
+                        </div>
+                        <p></p>
+                        <div>
+                          <p>
+                            <b>Dificuldade :</b> {element.dificuldade}
+                          </p>
+                          <p>
+                            <b>Porçoes:</b> {element.porcoes}
+                          </p>
+                          <p>
+                            <b>Tempo de Preparo:</b> {element.tempo} min
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                    <p className="text-sm font-medium text-gray-900">
-                     {element.tempo} min
-                    </p>
                   </div>
-                </div>
+                </Link>
               );
             })}
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

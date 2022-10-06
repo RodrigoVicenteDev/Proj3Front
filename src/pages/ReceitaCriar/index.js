@@ -10,6 +10,7 @@ function Receitascriar() {
     nome: "",
     tempo: 0,
     dificuldade: "",
+    imagemurl:"",
     porcoes: 0,
     ingredientes: [],
     preparo: [],
@@ -67,6 +68,15 @@ function Receitascriar() {
           name="nome"
           type="text"
           value={form.nome}
+          onChange={handleChange}
+        />
+
+<label style={{ marginTop: "20px" }} className="block text-sm font-medium text-gray-700">URL da Imagem:</label>
+<p>Procure  na internet uma imagem bem bonita de sua receita e cole no campo abaixo:</p>
+        <input  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          name="imagemurl"
+          type="text"
+          value={form.imagemurl}
           onChange={handleChange}
         />
         <label style={{ marginTop: "20px" }} className="block text-sm font-medium text-gray-700">Tempo de Preparo em min:</label>

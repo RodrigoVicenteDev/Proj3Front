@@ -2,6 +2,7 @@ import { useState } from "react";
 import { LockClosedIcon } from "@heroicons/react/20/solid";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../config/api";
+import { Link } from "react-router-dom";
 
 function LogIn() {
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ function LogIn() {
               Sign in to your account
             </h2>
           </div>
-          <form className="mt-8 space-y-6"  onSubmit={handleSubmit}>
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
@@ -75,10 +76,6 @@ function LogIn() {
               </div>
             </div>
 
-           
-
-             
-
             <div>
               <button
                 type="submit"
@@ -92,6 +89,9 @@ function LogIn() {
                 </span>
                 Sign in
               </button>
+              <Link to="/usuario/signup">
+                <p>Criar Usuario</p>
+              </Link>
             </div>
           </form>
         </div>

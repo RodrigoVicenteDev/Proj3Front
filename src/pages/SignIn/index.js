@@ -4,6 +4,43 @@ import { useNavigate } from "react-router-dom";
 import style from "./style.module.css";
 
 function SigIn() {
+  const [img, setImg] = useState("");
+  const [preview, setPreview] = useState();
+  function handleImage(e) {
+    setImg(e.target.files[0]);
+  }
+  useEffect(() => {
+    if (!img) {
+      setPreview(undefined);
+      return;
+    }
+
+    const objectURL = URL.createObjectURL(img);
+    console.log(objectURL);
+    setPreview(objectURL);
+
+    return () => URL.revokeObjectURL(objectURL);
+  }, [img]);
+  console.log(img);
+  async function handleUpload() {
+    try {
+      const uploadData = new FormData();
+      
+      uploadData.append("picture", img);
+      
+
+      const response = await api.post("/upload", uploadData);
+      
+
+      return response.data.url;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+
+
   const navigate = useNavigate();
   const [form, setForm] = useState({
     nome: "",
@@ -18,11 +55,11 @@ function SigIn() {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      /* const imgURL = await handleUpload(); */
+      const imgURL = await handleUpload();
 
-      await api.post("/usuario/signup", { ...form });
+      await api.post("/usuario/signup", { ...form, profilePic: imgURL });
 
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -96,8 +133,10 @@ function SigIn() {
            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" 
             type="file"
             id="formFile"
+            onChange={handleImage}
           />
-
+          <p style={{ marginTop: "20px" }} className="block text-sm font-medium text-gray-700">Imagem de perfil:</p>
+            {img && <img style={{width: "300px", borderRadius:"200px"}} src={preview} alt="" />}
           <button
             style={{ marginTop: "20px" }}
             className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"

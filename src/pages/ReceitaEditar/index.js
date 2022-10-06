@@ -11,6 +11,7 @@ function ReceitaEditar({ id, form, setForm, loading, show, setShow }) {
   function handleChange(e) {
     setEditForm({ ...editForm, [e.target.name]: e.target.value });
   }
+  
   function handleIngredients(e, index) {
     const clone = [...ingrediente];
     clone[index] = e.target.value;
@@ -31,10 +32,11 @@ function ReceitaEditar({ id, form, setForm, loading, show, setShow }) {
   }
   async function handleSubmit(e) {
     e.preventDefault();
-    const clone = { ...form };
+    const clone = { ...editForm };
     clone.ingredientes = [...clone.ingredientes, ...ingrediente];
     clone.preparo = [...clone.preparo, ...preparo];
     delete clone._id;
+    console.log(clone)
     try {
       await api.put(`/receita/editar/${id}`, clone);
     } catch (error) {
@@ -58,135 +60,178 @@ function ReceitaEditar({ id, form, setForm, loading, show, setShow }) {
   }
   return (
     <>
-     <Modal show={show} onHide={() => setShow(false)}>
+      <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Editar Receita</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-              {loading && (
-                <form onSubmit={handleSubmit}>
-                  <label className="block text-sm font-medium text-gray-700">Nome:</label>
-                  <input className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    name="nome"
-                    type="text"
-                    value={editForm.nome}
-                    onChange={handleChange}
-                  />
-                  <label className="block text-sm font-medium text-gray-700">Tempo de Preparo em min:</label>
-                  <input className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    name="tempo"
-                    type="number"
-                    value={editForm.tempo}
-                    onChange={handleChange}
-                  />
-                  <label className="block text-sm font-medium text-gray-700">dificuldade:</label>
-                  <select  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"name="dificuldade" onChange={handleChange}>
-                    <option value="facil">facil</option>
-                    <option value="medio">médio</option>
-                    <option value="dificil">dificil</option>
-                  </select>
-                  <label className="block text-sm font-medium text-gray-700">Porções:</label>
-                  <input className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    name="porcoes"
-                    type="number"
-                    value={editForm.porcoes}
-                    onChange={handleChange}
-                  />
-                  <ul>
-                    <b>Alterar Ingredientes</b>
-                    <br></br>
-                    {editForm.ingredientes.map((element, index) => {
-                      return (
-                        <li  style={{display:"flex"}}>
-                          <input
-                          className=" ingrediente mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            key={index}
-                            
-                            type="text"
-                            value={element}
-                            name={index}
-                            onChange={alteraringrediente}
-                          />
-                          <button style={{marginLeft:"10px"}} onClick={handleDeleteEditForm}>x</button>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                  
-                   
-                  <ul>
-                    {ingrediente.map((element, index) => {
-                      return (
-                        <li  style={{display:"flex"}}>
-                          <input
-                            key={index}
-                            className="ingredienteadd mt-1  w-full block rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            type="text"
-                            value={element}
-                            onChange={(e) => handleIngredients(e, index)}
-                          />
-                          <button style={{marginLeft:"10px"}} Click={handleDeleteEditForm}>x</button>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                  <button className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"onClick={adicionaringrediente}>
-                      Adicionar +1 Ingrediente
-                    </button>
-                  <ul>
-                 
-                
-                    <b>Alterar Preparo</b>
-                    <br></br>
-                    {editForm.preparo.map((element, index) => {
-                      return (
-                        <li  style={{display:"flex"}}>
-                          <input
-                            key={index}
-                            className="preparo mt-1 block  w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            type="text"
-                            value={element}
-                            name={index}
-                            onChange={alterarpreparo}
-                          />
-                          <button style={{marginLeft:"10px"}} Click={handleDeleteEditForm}>x</button>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                  
-                   
-                 
-                  <ul>
-                    {preparo.map((element, index) => {
-                      return (
-                        <>
-                        
-                        <li style={{display:"flex"}}>
-                          <input
-                            key={index}
-                            className="preparoadd  w-full mt-1 block rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            type="text"
-                            value={element}
-                            onChange={(e) => handlePreparo(e, index)}
-                          />
-                          <button style={{marginLeft:"10px"}}>x</button>
-                        </li>
-                        
-                        </>
-                      );
-                    })}
-                  </ul>
-                  <button className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" onClick={adicionarpreparo}>
-                      Adicionar +1 passo
-                    </button>
-                  <button  style={{marginTop:"20px"}} className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" type="submit">Concluir alteração</button>
-                </form>
-              )}
-           </Modal.Body>
-        <Modal.Footer className="justify-content-between">
-         
-        </Modal.Footer>
+          {loading && (
+            <form onSubmit={handleSubmit}>
+              <label className="block text-sm font-medium text-gray-700">
+                Nome:
+              </label>
+              <input
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                name="nome"
+                type="text"
+                value={editForm.nome}
+                onChange={handleChange}
+              />
+
+              <label className="block text-sm font-medium text-gray-700">
+                Imagem URL:
+              </label>
+              <input
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                name="imagemurl"
+                type="text"
+                value={editForm.imagemurl}
+                onChange={handleChange}
+              />
+              <label className="block text-sm font-medium text-gray-700">
+                Tempo de Preparo em min:
+              </label>
+              <input
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                name="tempo"
+                type="number"
+                value={editForm.tempo}
+                onChange={handleChange}
+              />
+              <label className="block text-sm font-medium text-gray-700">
+                dificuldade:
+              </label>
+              <select
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                name="dificuldade"
+                onChange={handleChange}
+              >
+                <option value="facil">facil</option>
+                <option value="medio">médio</option>
+                <option value="dificil">dificil</option>
+              </select>
+              <label className="block text-sm font-medium text-gray-700">
+                Porções:
+              </label>
+              <input
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                name="porcoes"
+                type="number"
+                value={editForm.porcoes}
+                onChange={handleChange}
+              />
+              <ul>
+                <b>Alterar Ingredientes</b>
+                <br></br>
+                {editForm.ingredientes.map((element, index) => {
+                  return (
+                    <li style={{ display: "flex" }}>
+                      <input
+                        className=" ingrediente mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        key={index}
+                        type="text"
+                        value={element}
+                        name={index}
+                        onChange={alteraringrediente}
+                      />
+                      <button
+                        style={{ marginLeft: "10px" }}
+                        onClick={handleDeleteEditForm}
+                      >
+                        x
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+
+              <ul>
+                {ingrediente.map((element, index) => {
+                  return (
+                    <li style={{ display: "flex" }}>
+                      <input
+                        key={index}
+                        className="ingredienteadd mt-1  w-full block rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        type="text"
+                        value={element}
+                        onChange={(e) => handleIngredients(e, index)}
+                      />
+                      <button
+                        style={{ marginLeft: "10px" }}
+                        Click={handleDeleteEditForm}
+                      >
+                        x
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+              <button
+                className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                onClick={adicionaringrediente}
+              >
+                Adicionar +1 Ingrediente
+              </button>
+              <ul>
+                <b>Alterar Preparo</b>
+                <br></br>
+                {editForm.preparo.map((element, index) => {
+                  return (
+                    <li style={{ display: "flex" }}>
+                      <input
+                        key={index}
+                        className="preparo mt-1 block  w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        type="text"
+                        value={element}
+                        name={index}
+                        onChange={alterarpreparo}
+                      />
+                      <button
+                        style={{ marginLeft: "10px" }}
+                        Click={handleDeleteEditForm}
+                      >
+                        x
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+
+              <ul>
+                {preparo.map((element, index) => {
+                  return (
+                    <>
+                      <li style={{ display: "flex" }}>
+                        <input
+                          key={index}
+                          className="preparoadd  w-full mt-1 block rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                          type="text"
+                          value={element}
+                          onChange={(e) => handlePreparo(e, index)}
+                        />
+                        <button style={{ marginLeft: "10px" }}>x</button>
+                      </li>
+                    </>
+                  );
+                })}
+              </ul>
+              <button
+                className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                onClick={adicionarpreparo}
+              >
+                Adicionar +1 passo
+              </button>
+              <button
+                style={{ marginTop: "20px" }}
+                className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                type="submit"
+              >
+                Concluir alteração
+              </button>
+            </form>
+          )}
+        </Modal.Body>
+        <Modal.Footer className="justify-content-between"></Modal.Footer>
       </Modal>
     </>
   );
