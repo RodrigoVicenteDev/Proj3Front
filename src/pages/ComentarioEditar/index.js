@@ -6,6 +6,14 @@ function ComentariosEditar({ idcomentario, element, reload, setReload }) {
   const [comentario, setComentario] = useState({ ...element });
   const [editar, setEditar] = useState(false);
 
+  const [logado, setLogado] = useState("");
+  useEffect(() => {
+    const loggedInUserJSON = localStorage.getItem("loggedInUser");
+    const parseLoggedInUser = JSON.parse(loggedInUserJSON || '""');
+
+    setLogado(parseLoggedInUser.user._id);
+  }, []);
+console.log(element)
   function handleChange(e) {
     setComentario({ ...comentario, [e.target.name]: e.target.value });
   }
