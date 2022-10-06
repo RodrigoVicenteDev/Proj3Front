@@ -45,7 +45,7 @@ function PaginaPrincipal() {
             onChange={handleChange}
           />
         </form>
-        <div style={{ display: "flex", marginTop: "20px" }}>
+        <div style={{ display: "flex" ,flexWrap:"wrap", marginTop: "20px" }}>
           {loading &&
             receitas
 
