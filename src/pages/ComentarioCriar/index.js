@@ -1,7 +1,7 @@
 import { api } from "../../config/api";
 import { useState } from "react";
 
-function ComentarioCriar({id}) {
+function ComentarioCriar({id, reload, setReload}) {
   const [form, setForm] = useState({});
 
   function handleChange(e) {
@@ -18,6 +18,7 @@ function ComentarioCriar({id}) {
     } catch (error) {
       console.log(error);
     }
+    setReload(!reload)
   }
   
   return (
@@ -26,7 +27,7 @@ function ComentarioCriar({id}) {
         <label className="block text-sm font-medium text-gray-700"> Escrever um comentario:</label>
         <textarea className="preparo mt-1 block  w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"onChange={handleChange} name="content"></textarea>
         <label className="block text-sm font-medium text-gray-700">Avaliação:</label>
-        <select className="preparo mt-1 block  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"onChange={handleChange}>
+        <select name="avaliacao" className="preparo mt-1 block  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"onChange={handleChange}>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>

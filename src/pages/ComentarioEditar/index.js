@@ -2,8 +2,9 @@ import { cloneElement, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "../../config/api";
 
-function ComentariosEditar({ idcomentario, element }) {
+function ComentariosEditar({ idcomentario, element, reload, setReload ,editar, setEditar}) {
   const [comentario, setComentario] = useState({ ...element });
+ 
 
   function handleChange(e) {
     
@@ -20,6 +21,9 @@ function ComentariosEditar({ idcomentario, element }) {
     } catch (error) {
         console.log(error)
     }
+    setEditar(!editar)
+    setReload(!reload)
+    console.log(editar)
   }
 
   return (

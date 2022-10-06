@@ -42,6 +42,7 @@ function ReceitaEditar({ id, form, setForm, loading, show, setShow }) {
     } catch (error) {
       console.log(error);
     }
+    setShow(!show)
   }
   function alteraringrediente(e) {
     const clone = { ...editForm }; // clono o state pra poder alterar ele diretamente
@@ -98,6 +99,24 @@ function ReceitaEditar({ id, form, setForm, loading, show, setShow }) {
                 value={editForm.tempo}
                 onChange={handleChange}
               />
+
+<label style={{ marginTop: "20px" }} className="block text-sm font-medium text-gray-700">Categoria:</label>
+        <select className="mt-1 block  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" name="categoria" onChange={handleChange}>
+          <option value="Acompanhamentos e Entradas">Acompanhamentos e Entradas</option>
+          <option value="Arroz e Risotos">Arroz e Risotos</option>
+          <option value="Bolos e Tortas Doces">Bolos e Tortas Doces</option>
+          <option value="Carne Suína">Carne Suína</option>
+          <option value="Carnes">Carnes</option>
+          <option value="Frangos e Aves">Frangos e Aves</option>
+          <option value="Acompanhamentos e Entradas">Acompanhamentos e Entradas</option>
+          <option value="Lanches">Lanches</option>
+          <option value="Massas">Massas</option>
+          <option value="Peixes e Frutos do Mar">Peixes e Frutos do Mar</option>
+          <option value="Sobremesas">Sobremesas</option>
+          <option value="Sopas">Sopas</option>
+        </select>
+
+
               <label className="block text-sm font-medium text-gray-700">
                 dificuldade:
               </label>

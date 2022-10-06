@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
+import Modal from "react-bootstrap/Modal";
 import { api } from "../../config/api";
 import { useNavigate } from "react-router-dom";
-import style from "./style.module.css";
-
-function SigIn() {
-  const [img, setImg] = useState("");
+function EditarPerfil({show, setShow, usuario, setUsuario}) {
+const[form, setForm] = useState({...usuario})
+const [img, setImg] = useState("");
   const [preview, setPreview] = useState();
-  function handleImage(e) {
+  const navigate = useNavigate();
+
+
+function handleImage(e) {
     setImg(e.target.files[0]);
   }
   useEffect(() => {
@@ -40,14 +43,6 @@ function SigIn() {
 
 
 
-
-  const navigate = useNavigate();
-  const [form, setForm] = useState({
-    nome: "",
-    email: "",
-    password: "",
-  });
-
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
@@ -57,18 +52,34 @@ function SigIn() {
     try {
       const imgURL = await handleUpload();
 
-      await api.post("/usuario/signup", { ...form, profilePic: imgURL });
+      await api.put("/usuario/editar", { ...form, profilePic: imgURL });
 
-      navigate("/");
+      
     } catch (error) {
       console.log(error);
     }
-    navigate("/login")
+    setShow(!show)
   }
 
-  return (
-    <>
-      <div className={style.container}>
+async function deletarPerfil(){
+    try {
+        await api.delete(`/usuario/deletar/`)
+
+    } catch (error) {
+        console.log(error)
+    }
+    navigate("/")
+}
+
+    return ( <>
+    
+
+    <Modal show={show} onHide={() => setShow(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Editar Perfil</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+ 
         <form onSubmit={handleSubmit}>
           <label
             htmlFor="first-name"
@@ -98,20 +109,7 @@ function SigIn() {
             onChange={handleChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
-          <label style={{ marginTop: "20px" }}
-            htmlFor="first-name"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Senha:
-          </label>
-          <input
-            name="password"
-            type="password"
-            pattern={`(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$`}
-            value={form.password}
-            onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-          />
+          
 
           <label style={{ marginTop: "20px" }} className="block text-sm font-medium text-gray-700">
             Profile Picture:
@@ -137,18 +135,24 @@ function SigIn() {
             onChange={handleImage}
           />
           <p style={{ marginTop: "20px" }} className="block text-sm font-medium text-gray-700">Imagem de perfil:</p>
-            {img && <img style={{width: "300px", borderRadius:"200px"}} src={preview} alt="" />}
+            {img && <img style={{width: "200px", borderRadius:"200px"}} src={preview} alt="" />}
           <button
             style={{ marginTop: "20px" }}
             className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             type="submit"
           >
-            Cadastrar
+            Alterar
           </button>
         </form>
-      </div>
-    </>
-  );
+
+
+
+        </Modal.Body>
+        <Modal.Footer className="justify-content-between"><button onClick={deletarPerfil} type="button" class="btn btn-danger">Excluir Perfil</button></Modal.Footer>
+      </Modal>
+    
+    
+    </> );
 }
 
-export default SigIn;
+export default EditarPerfil;
