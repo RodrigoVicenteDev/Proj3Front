@@ -32,17 +32,22 @@ function LogIn() {
       <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         
         <div
-          className="w-full max-w-md space-y-8"
+          className="w-full max-w-xl space-y-8"
           style={{ margin: "auto", textAlign: "center" }}
         >
           <h1 className={style.logo}>
             <spam style={{ color: "#4F46E5" }}>L</spam>a
             <span style={{ color: "#4F46E5" }}>R</span>ecette
           </h1>
+
           <div style={{ margin: "auto", textAlign: "center" }}>
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
               Entre para compartilhar e experimentar deliciosas receitas
             </h2>
+            <div
+          className="w-full max-w-xl space-y-8"
+          style={{ margin: "auto", textAlign: "center" }}
+        >
           </div>
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <input type="hidden" name="remember" defaultValue="true" />
@@ -95,11 +100,14 @@ function LogIn() {
                 Sign in
               </button>
               <Link to="/usuario/signup">
-                <p>Criar Usuario</p>
+                <div style={{textAlign:"sart"}}>
+                <p >Criar Usuario</p>
+                </div>
               </Link>
             </div>
           </form>
         </div>
+      </div>
       </div>
     </>
   );
