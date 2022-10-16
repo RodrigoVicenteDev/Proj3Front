@@ -1,6 +1,8 @@
 # Aplicação para compartilhamento de receitas
 
 	Projeto final do Bootcamp full-time web development na Iron hack
+	
+	DEPLOY : https://recnetreceitas.netlify.app/
 
 
 
