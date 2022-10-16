@@ -2,8 +2,8 @@
 
 	Projeto final do Bootcamp full-time web development na Iron hack
 	
-	DEPLOY : https://recnetreceitas.netlify.app/
-
+	
+DEPLOY : https://recnetreceitas.netlify.app/
 
 
 ## Ferramentas utilizadas
