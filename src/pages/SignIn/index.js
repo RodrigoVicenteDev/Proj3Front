@@ -25,21 +25,16 @@ function SigIn() {
   async function handleUpload() {
     try {
       const uploadData = new FormData();
-      
+
       uploadData.append("picture", img);
-      
 
       const response = await api.post("/upload", uploadData);
-      
 
       return response.data.url;
     } catch (error) {
       console.log(error);
     }
   }
-
-
-
 
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -63,7 +58,7 @@ function SigIn() {
     } catch (error) {
       console.log(error);
     }
-    navigate("/ ")
+    navigate("/");
   }
 
   return (
@@ -84,7 +79,8 @@ function SigIn() {
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
 
-          <label style={{ marginTop: "20px" }}
+          <label
+            style={{ marginTop: "20px" }}
             htmlFor="first-name"
             className="block text-sm font-medium text-gray-700"
           >
@@ -98,7 +94,8 @@ function SigIn() {
             onChange={handleChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
-          <label style={{ marginTop: "20px" }}
+          <label
+            style={{ marginTop: "20px" }}
             htmlFor="first-name"
             className="block text-sm font-medium text-gray-700"
           >
@@ -113,11 +110,14 @@ function SigIn() {
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
 
-          <label style={{ marginTop: "20px" }} className="block text-sm font-medium text-gray-700">
+          <label
+            style={{ marginTop: "20px" }}
+            className="block text-sm font-medium text-gray-700"
+          >
             Profile Picture:
           </label>
           <input
-           className=" form-control
+            className=" form-control
            block
            w-full
            px-3
@@ -131,13 +131,24 @@ function SigIn() {
            transition
            ease-in-out
            m-0
-           focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" 
+           focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
             type="file"
             id="formFile"
             onChange={handleImage}
           />
-          <p style={{ marginTop: "20px" }} className="block text-sm font-medium text-gray-700">Imagem de perfil:</p>
-            {img && <img style={{width: "300px", borderRadius:"200px"}} src={preview} alt="" />}
+          <p
+            style={{ marginTop: "20px" }}
+            className="block text-sm font-medium text-gray-700"
+          >
+            Imagem de perfil:
+          </p>
+          {img && (
+            <img
+              style={{ width: "300px", borderRadius: "200px" }}
+              src={preview}
+              alt=""
+            />
+          )}
           <button
             style={{ marginTop: "20px" }}
             className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
