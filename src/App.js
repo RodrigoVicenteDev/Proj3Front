@@ -12,13 +12,14 @@ import './App.css';
 import {Routes, Route} from "react-router-dom"
 
 function App() {
-  console.log(window.location.pathname == "/")
+  
   const { pathname } = useLocation();
   return (
     <div className="App">
     
-  {pathname != "/" && <NavBar/> }
-   
+  {(pathname !== "/" ) && (pathname !=="/usuario/signup") && <NavBar/>}
+  
+ 
      <Routes>
      
      <Route path="/usuario/signup" element={<SigIn/>}/>
@@ -29,7 +30,7 @@ function App() {
      <Route path="/comentario/editar/:id" element={<ComentariosEditar/>}/>
      <Route path="/profile" element={<ProfilePage/>}/>
      </Routes>
-       {pathname != "/" &&<Footer/> }
+       {pathname !== "/" &&<Footer/> }
     </div>
   );
 }
