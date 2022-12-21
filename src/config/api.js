@@ -3,7 +3,7 @@ import axios from "axios";
 
 const apiURLs = {
   development: "http://localhost:4000",
-  production: "https://proj3ironhack.herokuapp.com",
+  production: "https://master.d14xvsop4liehv.amplifyapp.com",
 };
 
 const api = axios.create({ baseURL: apiURLs[process.env.NODE_ENV] });
